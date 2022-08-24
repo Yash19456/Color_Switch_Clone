@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="755.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.TotalstatsController">
+   <children>
+      <ImageView fitHeight="205.0" fitWidth="263.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/totalstaats.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="198.0" fitWidth="196.0" layoutX="33.0" layoutY="278.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/icon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="356.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/obstaclescrossed.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="144.0" fitWidth="230.0" layoutX="327.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/pcollected.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="356.0" layoutY="364.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/starcollected.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="73.0" fitWidth="101.0" layoutX="629.0" layoutY="5.0" onMouseClicked="#backmain" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/homeremove.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="points_collected" layoutX="595.0" layoutY="121.0" prefHeight="42.0" prefWidth="90.0" text="0" textFill="#f1e217">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="stars_collected" layoutX="595.0" layoutY="384.0" prefHeight="42.0" prefWidth="90.0" text="0" textFill="#f1e217">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="obstacles_crossed" layoutX="595.0" layoutY="249.0" prefHeight="42.0" prefWidth="90.0" text="0" textFill="#f1e217">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

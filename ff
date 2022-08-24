@@ -1,0 +1,335 @@
+package sample;
+import java.io.*;
+
+import javafx.animation.AnimationTimer;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
+import java.util.ArrayList;
+import java.util.Random;
+
+class Gameplay implements Serializable{
+    Circle circle1; //ball
+    int count=0;
+    Group object1=new Group();
+    Group object2=new Group();
+    Group change_color=new Group();
+    Group gstar= new Group();
+    obstacle_shape first;
+    obstacle_shape second;
+    change_color cc=new change_color();
+    Points pointsLabel;
+    Scene scene ;
+    AnimationTimer timer = new MyTimer();
+    PauseController pause;
+    private boolean keypressed;
+    boolean initiate=false;
+    boolean created=false;
+    Stage stage;
+    Random generate_id=new Random();
+    ImageView star;
+    String image="/sample/star_gold.png";
+    public Gameplay() throws IOException {
+        this.stage=MainController.stage;
+        pointsLabel=new Points(" POINTS : 00");
+        pointsLabel.setPoints(0);
+
+
+
+    }
+    public Gameplay(int points){
+        pointsLabel=new Points(" POINTS : "+points);
+        pointsLabel.setPoints(points);
+
+        //stage.setScene(PauseController.gamescene);
+
+    }
+    public void play(){
+        Image i1=new Image("resources/pauseb.png");
+        ImageView image1=new ImageView(i1);
+        image1.setX(540);
+        image1.setY(60);
+        image1.setFitWidth(60);
+        image1.setFitHeight(40);
+        image1.setPreserveRatio(true);
+        image1.setPickOnBounds(true);
+        image1.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                System.out.println("Clicked");
+
+                    try {
+                        timer.stop();
+                        pause.loadscreen();
+                    } catch (Exception e) {
+                        System.out.println("Exception is : " + e);
+                        e.printStackTrace();
+                    }
+
+
+            }
+        });;
+
+        AnchorPane gamePane=new AnchorPane();
+        circle1=new Circle();
+        circle1.setCenterX(350);
+        circle1.setCenterY(600);
+        circle1.setRadius(20);
+        circle1.setFill(Color.WHITE);
+
+        star=new ImageView(image);
+        star.setLayoutY(-100);
+        star.setLayoutX(350);
+        gstar.getChildren().addAll(star);
+
+        pointsLabel.setLayoutY(30);
+        pointsLabel.setLayoutX(30);
+        Button b=new Button();
+        gamePane.getChildren().addAll(object1,object2,change_color,gstar,circle1,image1,pointsLabel);
+        gamePane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        first=new circle();
+        first.make_obstacle();
+        first.generate_obstacle(object1);
+        //first.first_obstacle();
+        System.out.println(" created 1");
+
+        scene = new Scene(gamePane, 700, 700, Color.BLACK);
+
+        stage.setTitle("AnimationTimer");
+        stage.setScene(scene);
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode()== KeyCode.SPACE)
+                {
+
+                    timer.start();
+                }
+                else if(keyEvent.getCode() == KeyCode.UP)
+                {
+                    keypressed=true;
+                }
+            }
+        });
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode()== KeyCode.UP)
+                {
+                    keypressed=false;
+                }
+            }
+        });
+
+        stage.show();
+    }
+    private class MyTimer extends AnimationTimer {
+        private boolean alpha;
+        @Override
+        public void handle(long now) {
+
+            object1.setRotate(object1.getRotate()+2);
+            object2.setRotate(object2.getRotate()+2);
+            doHandle();
+            if(alpha)
+            {
+                dorelease();
+            }
+        }
+
+        private void doHandle() {
+            int test1;
+            int test2=0;
+
+            if(keypressed)
+            {
+                //System.out.println("Circle is : "+circle1.getCenterY());
+                if(circle1.getCenterY()>350)
+                    circle1.setCenterY(circle1.getCenterY()-10);
+                else {
+                    test1=first.move_obstacle();
+                    if(created)
+                    {
+                        test2=second.move_obstacle();
+                    }
+                    if(change_color.getChildren().size()!=0)
+                    {
+                        cc.move_obstacle();
+                        if(cc.check_collision(circle1))
+                        {
+                            cc.remove_obstacle(change_color);
+                            //System.out.println(change_color.getChildren().size());
+                            if(circle1.getFill()==Color.WHITE)
+                            {
+                                circle1.setFill(Color.RED);
+                            }
+                            else if(circle1.getFill()==Color.RED)
+                            {
+                                circle1.setFill(Color.YELLOW);
+                            }
+                            else if(circle1.getFill()==Color.YELLOW)
+                            {
+                                circle1.setFill(Color.BLUE);
+                            }
+                            else if(circle1.getFill()==Color.BLUE)
+                            {
+                                circle1.setFill(Color.WHITE);
+                            }
+
+                        }
+                    }
+                    if(gstar.getChildren().size()!=0)
+                    {
+                        star.setLayoutY(star.getLayoutY()+10);
+
+                        if(star.getLayoutY()>330)
+                        {
+                            pointsLabel.setPoints(1);
+                            String text=" POINTS : ";
+                            pointsLabel.setText(text + pointsLabel.getPoints());
+                            gstar.getChildren().remove(star);
+                        }
+                    }
+
+                    if(test1==1 || test2==1)
+                    {
+                        create_obstacle();
+                        created=true;
+                    }
+                    if(test1==2)
+                    {
+                        destroy_obstacle(1);
+                    }
+                    else if(test2==2)
+                    {
+                        destroy_obstacle(2);
+                    }
+                }
+                alpha=true;
+                if(first.check_collision(circle1))
+                {
+                    gameovercontroller over=new gameovercontroller();
+                    over.loadscreen();
+                    this.stop();
+                }
+                if(created)
+                {
+                    if(second.check_collision(circle1))
+                    {
+                        gameovercontroller over=new gameovercontroller();
+                        over.loadscreen();
+                        this.stop();
+                    }
+                }
+
+
+            }
+        }
+        private void dorelease()
+        {
+            circle1.setCenterY(circle1.getCenterY()+2);
+            if(circle1.getCenterY()>=600)
+            {
+                alpha=false;
+            }
+            if(first.check_collision(circle1))
+            {
+                gameovercontroller over=new gameovercontroller();
+                over.loadscreen();
+                this.stop();
+            }
+            if(created)
+            {
+                if(second.check_collision(circle1))
+                {
+                    gameovercontroller over=new gameovercontroller();
+                    over.loadscreen();
+                    this.stop();
+                }
+            }
+        }
+    }
+    void create_obstacle()
+    {
+        if(!initiate)
+        {
+            if(change_color.getChildren().size()==0)
+            {
+                cc=new change_color();
+                cc.generate_obstacle(change_color);
+            }
+            //System.out.println(" created 2");
+            second=new square();
+            second.make_obstacle();
+            second.generate_obstacle(object2);
+            initiate=true;
+        }
+        else
+        {
+            if(object1.getChildren().size()==0)
+            {
+                if(gstar.getChildren().size()==0)
+                {
+                    star=new ImageView(image);
+                    star.setLayoutY(-100);
+                    star.setLayoutX(350);
+                    gstar.getChildren().addAll(star);
+                }
+                //cc.generate_obstacle(change_color);
+                first=new circle();
+                first.make_obstacle();
+                first.generate_obstacle(object1);
+                //System.out.println(" created 1");
+
+            }
+            else if(object2.getChildren().size()==0)
+            {
+                //
+                if(change_color.getChildren().size()==0)
+                {
+                    cc=new change_color();
+                    cc.generate_obstacle(change_color);
+                }
+
+                second=new square();
+                second.make_obstacle();
+                second.generate_obstacle(object2);
+                // System.out.println(" created 2");
+
+            }
+        }
+    }
+    void destroy_obstacle(int choose)
+    {
+        if((choose==1) && (object1.getChildren().size()!=0))
+        {
+            first.remove_obstacle(object1);
+            //System.out.println(object1.getChildren().size()+" destroyed 1");
+        }
+        else if((choose==2) && (object2.getChildren().size()!=0))
+        {
+            second.remove_obstacle(object2);
+            //System.out.println(object2.getChildren().size()+" destroyed 2");
+        }
+    }
+
+
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="705.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.gameovercontroller">
+    <children>
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="505.0"  pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/csback1.jpg" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="52.0" fitWidth="74.0" layoutX="14.0" layoutY="21.0" onMouseClicked="#exitgame" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/homeremove.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="100.0" fitWidth="85.0" layoutX="94.0" layoutY="5.0" onMouseClicked="#restart" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/replayfi.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="91.0" fitWidth="170.0" layoutX="216.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/score.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="106.0" fitWidth="234.0" layoutX="198.0" layoutY="419.0" onMouseClicked="#usestars" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/usestars.png" />
+            </image>
+            <effect>
+                <DropShadow color="#cd2b2b" />
+            </effect>
+        </ImageView>
+        <ImageView fitHeight="79.0" fitWidth="234.0" layoutX="184.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/totalstars.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="541.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/icon.png" />
+            </image>
+        </ImageView>
+        <Label fx:id="score" alignment="CENTER" layoutX="232.0" layoutY="135.0" prefHeight="71.0" prefWidth="138.0" text="0" textFill="WHITE">
+            <font>
+                <Font size="45.0" />
+            </font>
+        </Label>
+        <Label fx:id="stars" layoutX="288.0" layoutY="310.0" prefHeight="64.0" prefWidth="163.0" text="0" textFill="#f2ecec">
+            <font>
+                <Font size="45.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>
